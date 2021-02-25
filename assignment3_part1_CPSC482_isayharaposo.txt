@@ -1,0 +1,37 @@
+Variables defined in the question:
+Let M = An adjacency matrix representing an unweighted, undirected graph G = (V, E)
+Let V = The set of all nodes in graph G
+Let E = The set of all edges in graph G
+Let v = The "source" node; an element of V
+Let w = The "destination" node; an element of V
+
+Variables defined in the solution:
+Let Q = An empty queue
+Let s = The length of the shortest path(s) from v to w; initially unknown
+Let c = The number of shortest path(s) from v to w; initially holds a value of 0
+
+Algorithm:
+Append (v, 0) to Q
+While Q is not empty
+    Let (n, l) = The tuple given by dequeuing Q (n is a node, l is a path length)
+    Label n as visited
+    If s is known
+        If l is greater than s
+            break
+        Endif
+    Endif
+    If n is equal to w:
+        If s is unknown or l is less than s:
+            Let s = l
+            Let c = 1
+        Elseif l is equal to s:
+            Let c = c + 1
+        Endif
+    Else:
+        For all nodes m in M[n] (For all nodes m in V such that there exists an edge e in E directly connecting n and m/where e is equal to (n, m))
+            If m has not been visited
+                Append (m, l + 1) to Q
+            Endif
+        Endfor
+    Endif
+Endwhile

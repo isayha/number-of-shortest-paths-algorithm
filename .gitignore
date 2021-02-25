@@ -136,3 +136,11 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# La(TeX) documents
+*.aux
+*.gz
+*.tex
+*.log
+*.synctex(busy)
+assignment3images/

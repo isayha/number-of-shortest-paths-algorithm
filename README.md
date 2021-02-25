@@ -1,5 +1,5 @@
 # number-of-shortest-paths-algorithm
-A Python implementation of a modified Breadth-First Search algorithm. This algorithm determines both the length *and* the number of the shortest (distinct) paths between the specified source and destination nodes for a specified graph (the latter of which is given in the form of an adjacency matrix). The algorithm achieves this by allowing for (and keeping track of the number of) repeated visits to the destination node where said visits originate from distinct paths and said distinct paths are all of the same (shortest possible) length.
+A Python implementation of a modified Dijkstra's algorithm. This algorithm determines both the length *and* the number of the shortest (distinct) paths between the specified source and destination nodes for a specified graph (given in the form of an adjacency matrix). The algorithm achieves this by allowing for (and keeping track of the number of) repeated visits from the source node to the destination node where said visits originate from distinct paths and said distinct paths are all of the same (shortest possible) length.
 
 ## Instructions
 ### How to run

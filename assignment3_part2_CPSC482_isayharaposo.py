@@ -27,48 +27,41 @@ while not (dataLine == ""):
     try:
         adjacencyMatrix.append([node for node, isAdjacent in enumerate(dataLine.split(" ")) if int(isAdjacent) == 1])
     except:
-        handleDataIssue(True, ("Line " + nodeCount + 1 + " of data file incorrectly formatted."))
+        handleDataIssue(True, ("Line " + str(nodeCount + 1) + " of data file incorrectly formatted."))
     dataLine = data.readline().strip('\n')
 
 # Algorithm:
-# This algorithm is a modified breadth-first search (BFS) algorithm that allows for/keeps track of the number of
+# This algorithm is a modified version of Dijkstra's algorithm that keeps track of the number of
 # repeated visits to the destination node where said visits originate from distinct paths and said distinct paths
 # are all of the same (shortest possible) length
 lengthOfShortestPath = None
 numberOfShortestPaths = 0
 
-# Handles edge case in which the source node is the same as the destination node
-if sourceNode == destinationNode:
-    lengthOfShortestPath = 0
-    numberOfShortestPaths = 1
-
 visited = [False] * nodeCount # Used to keep track of which nodes have already been visited
-visited[sourceNode] =  True # Mark the source node as visited
 
-queue = [[sourceNode, 0]] # [node, pathLength]
+queue = [[sourceNode, 0]] # [node, pathLength, visited]
 while queue:
     node = queue[0][0]
     pathLength = queue[0][1]
-
+    visited[node] =  True # Mark the node as visited
     # Prevents consideration of paths longer than the length of the shortest path
     # (We don't consider child nodes if the length of the path that led to the current (parent) node is equal to or
     # exceeds the length of the shortest path, as doing so would be redundant)
-    if lengthOfShortestPath is not None:
-        if pathLength == lengthOfShortestPath:
-            break
-
-    # Adds child nodes of the current (parent) node to the queue, where said child nodes have not already been visited
-    # (To prevent redundancies). The one exception being if a given child node is the destination node; 
-    # in such a case, the number of shortest paths is incremented, and no further action is taken.
-    for nextNode in adjacencyMatrix[node]:
-        if nextNode == destinationNode:
-            lengthOfShortestPath = pathLength + 1 # As per Breadth-First Search
-            numberOfShortestPaths += 1
-        elif visited[nextNode] is False:
-            visited[nextNode] = True
-            queue.append([nextNode, pathLength + 1])
-
     queue.pop(0)
+    if lengthOfShortestPath is not None:
+        if pathLength > lengthOfShortestPath:
+            break
+    if node == destinationNode:
+        if lengthOfShortestPath is None or pathLength < lengthOfShortestPath:
+            lengthOfShortestPath = pathLength
+            numberOfShortestPaths = 1
+        elif lengthOfShortestPath == pathLength:
+            numberOfShortestPaths += 1
+    else:
+        # Adds child nodes of the current (parent) node to the queue, where said child nodes have not already been visited
+        for nextNode in adjacencyMatrix[node]:
+            if visited[nextNode] is False:
+                queue.append([nextNode, pathLength + 1])
 
 # Prints results
 print("Length of shortest path between node " + str(sourceNode) + " and node " + str(destinationNode) + ": " + str(lengthOfShortestPath))
